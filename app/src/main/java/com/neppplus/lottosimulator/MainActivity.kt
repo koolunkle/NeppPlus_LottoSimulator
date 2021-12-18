@@ -2,6 +2,7 @@ package com.neppplus.lottosimulator
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.neppplus.lottosimulator.databinding.ActivityMainBinding
 
@@ -10,6 +11,8 @@ class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
 
     val mWinLottoNumArr = ArrayList<Int>()
+
+    lateinit var mLottoNumTxtList: ArrayList<TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +78,24 @@ class MainActivity : BaseActivity() {
         }
 
 //        당첨 번호 6개 확인
-        for (num in mWinLottoNumArr) {
-            Log.d("당첨번호", num.toString())
+        for (i in 0 until 6) {
+
+//            TextView[i]  =  당첨번호[i]
+            mLottoNumTxtList[i].text = mWinLottoNumArr[i].toString()
         }
 
     }
 
     override fun setValues() {
+
+        mLottoNumTxtList = arrayListOf(
+            binding.txtLottoNum1,
+            binding.txtLottoNum2,
+            binding.txtLottoNum3,
+            binding.txtLottoNum4,
+            binding.txtLottoNum5,
+            binding.txtLottoNum6
+        )
 
     }
 }
