@@ -1,8 +1,11 @@
 package com.neppplus.lottosimulator
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.lottosimulator.databinding.ActivityMainBinding
 import java.text.NumberFormat
@@ -30,6 +33,29 @@ class MainActivity : BaseActivity() {
 //    등수별 당첨 횟수 목록
     val mRankCountList = arrayListOf( 0, 0, 0, 0, 0, 0)
 
+//    할일을 관리하는 클래스
+    lateinit var mHandler: Handler
+
+//    로또 구매하기
+    val buyLottoRunnable = object : Runnable {
+
+        override fun run() {
+//            쓴 돈이 1천만원이 안된다면 -> 다시 로또 구매
+            if (mUsedMoney <= 10000000) {
+                makeLottoNumbers()
+                makeBonusNum()
+                checkLottoRank()
+
+                mHandler.post(this)
+            }
+//        아니라면 반복 X
+            else {
+                Toast.makeText(this@MainActivity, "자동 구매를 중단합니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -38,6 +64,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnAutoBuyLotto.setOnClickListener {
+//            핸들러에게 할일을 등록 (로또 한장 구매)
+            mHandler.post(buyLottoRunnable)
+        }
 
         binding.btnBuyLotto.setOnClickListener {
 
@@ -207,6 +238,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mHandler = Handler(Looper.getMainLooper())
 
         mLottoNumTxtList = arrayListOf(
             binding.txtLottoNum1,
