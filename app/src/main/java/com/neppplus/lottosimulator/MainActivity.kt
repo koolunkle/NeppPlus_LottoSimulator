@@ -27,6 +27,9 @@ class MainActivity : BaseActivity() {
 //    당첨 금액? 합산 변수
     var mEarnedMoney = 0L
 
+//    등수별 당첨 횟수 목록
+    val mRankCountList = arrayListOf( 0, 0, 0, 0, 0, 0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -78,6 +81,9 @@ class MainActivity : BaseActivity() {
             6 -> {
                 Log.d("등수", "1등입니다!")
                 mEarnedMoney += 5000000000
+
+                mRankCountList[0]++
+                binding.txtRankCount1.text = "${mRankCountList[0]}회"
             }
 
             5 -> {
@@ -85,10 +91,16 @@ class MainActivity : BaseActivity() {
                 if (mMyLottoNumArr.contains( mBonusNum )) {
                     Log.d("등수", "2등")
                     mEarnedMoney += 50000000
+
+                    mRankCountList[1]++
+                    binding.txtRankCount2.text = "${mRankCountList[1]}회"
                 }
                 else {
                     Log.d("등수", "3등")
                     mEarnedMoney += 2000000
+
+                    mRankCountList[2]++
+                    binding.txtRankCount3.text = "${mRankCountList[2]}회"
                 }
 
             }
@@ -96,15 +108,24 @@ class MainActivity : BaseActivity() {
             4 -> {
                 Log.d("등수", "4등")
                 mEarnedMoney += 50000
+
+                mRankCountList[3]++
+                binding.txtRankCount4.text = "${mRankCountList[3]}회"
             }
 
             3 -> {
                 Log.d("등수", "5등")
                 mUsedMoney -= 5000
+
+                mRankCountList[4]++
+                binding.txtRankCount5.text = "${mRankCountList[4]}회"
             }
 
             else -> {
                 Log.d("등수", "꽝")
+
+                mRankCountList[5]++
+                binding.txtRankCount6.text = "${mRankCountList[5]}회"
             }
         }
 
