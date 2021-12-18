@@ -14,6 +14,8 @@ class MainActivity : BaseActivity() {
 
     lateinit var mLottoNumTxtList: ArrayList<TextView>
 
+    var mBonusNum = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -29,9 +31,30 @@ class MainActivity : BaseActivity() {
             makeLottoNumbers()
 
 //            보너스번호 생성
+            makeBonusNum()
 
         }
 
+    }
+
+    fun makeBonusNum() {
+
+//        써도 되는 숫자가 나올때까지 무한 반복
+
+        while (true) {
+
+            val randomNum = (1..45).random()
+
+            val isDuplOk = !mWinLottoNumArr.contains(randomNum)
+
+            if (isDuplOk) {
+                mBonusNum = randomNum
+                break
+            }
+
+        }
+//        보너스번호 TextView 반영
+        binding.txtBonusNum.text = mBonusNum.toString()
     }
 
     fun makeLottoNumbers() {
