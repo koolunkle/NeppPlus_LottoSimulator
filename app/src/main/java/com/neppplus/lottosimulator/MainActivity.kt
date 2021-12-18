@@ -5,6 +5,9 @@ import android.util.Log
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.neppplus.lottosimulator.databinding.ActivityMainBinding
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity() {
 
@@ -17,6 +20,12 @@ class MainActivity : BaseActivity() {
     var mBonusNum = 0
 
     val mMyLottoNumArr = arrayListOf(5, 17, 26, 30, 36, 42)
+
+//    내가 쓴 금액? 합산 변수
+    var mUsedMoney = 0L  // Long 타입 (긴 숫자 표현) 명시
+
+//    당첨 금액? 합산 변수
+    var mEarnedMoney = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +52,11 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkLottoRank() {
+
+//        1천원 사용으로 간주
+        mUsedMoney += 1000
+
+        binding.txtUsedMoney.text = "${NumberFormat.getInstance(Locale.KOREA).format(mUsedMoney)}원"
 
 //        내 숫자 6개가 -> 당첨번호 6개 중 몇개나 맞췄는가?
 
