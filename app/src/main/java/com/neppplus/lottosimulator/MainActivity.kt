@@ -57,8 +57,22 @@ class MainActivity : BaseActivity() {
 
         }
 
-//        ArrayList sort 기능 활용
-        mWinLottoNumArr.sort()
+//        Bubble sort 기능 활용
+        for (i in 0 until mWinLottoNumArr.size) {
+
+            for (j in 0 until mWinLottoNumArr.size - 1) {
+
+                if (mWinLottoNumArr[j] > mWinLottoNumArr[j + 1]) {
+
+                    val backUp = mWinLottoNumArr[j]
+                    mWinLottoNumArr[j] = mWinLottoNumArr[j + 1]
+                    mWinLottoNumArr[j + 1] = backUp
+
+                }
+
+            }
+
+        }
 
 //        당첨 번호 6개 확인
         for (num in mWinLottoNumArr) {
