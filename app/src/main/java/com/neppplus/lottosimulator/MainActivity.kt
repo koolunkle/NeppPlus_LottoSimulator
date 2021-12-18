@@ -59,6 +59,38 @@ class MainActivity : BaseActivity() {
 
         }
         Log.d("맞춘 갯수", "${correctCount}개 맞춤")
+
+//        등수 판단 -> when 활용
+
+        when (correctCount) {
+            6 -> {
+                Log.d("등수", "1등입니다!")
+            }
+
+            5 -> {
+//                보너스번호 검사 -> 보너스 번호가 내 번호 안에 있는가?
+                if (mMyLottoNumArr.contains( mBonusNum )) {
+                    Log.d("등수", "2등")
+                }
+                else {
+                    Log.d("등수", "3등")
+                }
+
+            }
+
+            4 -> {
+                Log.d("등수", "4등")
+            }
+
+            3 -> {
+                Log.d("등수", "5등")
+            }
+
+            else -> {
+                Log.d("등수", "꽝")
+            }
+        }
+
     }
 
     fun makeBonusNum() {
