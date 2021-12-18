@@ -31,10 +31,13 @@ class MainActivity : BaseActivity() {
     var mEarnedMoney = 0L
 
 //    등수별 당첨 횟수 목록
-    val mRankCountList = arrayListOf( 0, 0, 0, 0, 0, 0)
+    val mRankCountList = arrayListOf(0, 0, 0, 0, 0, 0)
 
 //    할일을 관리하는 클래스
     lateinit var mHandler: Handler
+
+//    지금 자동 구매 중인가?
+    var isAutoNow = false
 
 //    로또 구매하기
     val buyLottoRunnable = object : Runnable {
@@ -66,8 +69,20 @@ class MainActivity : BaseActivity() {
     override fun setupEvents() {
 
         binding.btnAutoBuyLotto.setOnClickListener {
+
+            if (!isAutoNow) {
 //            핸들러에게 할일을 등록 (로또 한장 구매)
-            mHandler.post(buyLottoRunnable)
+                mHandler.post(buyLottoRunnable)
+
+                isAutoNow = true
+                binding.btnAutoBuyLotto.text = "자동 구매 중단하기"
+            } else {
+//                다음 구매 할일 제거
+                mHandler.removeCallbacks(buyLottoRunnable)
+
+                isAutoNow = false
+                binding.btnAutoBuyLotto.text = "자동 구매 재개"
+            }
         }
 
         binding.btnBuyLotto.setOnClickListener {
@@ -119,7 +134,7 @@ class MainActivity : BaseActivity() {
 
             5 -> {
 //                보너스번호 검사 -> 보너스 번호가 내 번호 안에 있는가?
-                if (mMyLottoNumArr.contains( mBonusNum )) {
+                if (mMyLottoNumArr.contains(mBonusNum)) {
                     Log.d("등수", "2등")
                     mEarnedMoney += 50000000
 
